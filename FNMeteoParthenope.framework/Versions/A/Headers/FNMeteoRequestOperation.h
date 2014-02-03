@@ -7,7 +7,17 @@
 
 #import <Foundation/Foundation.h>
 #import "FNDefines.h"
-@interface FNMeteoRequestOperation : AFJSONRequestOperation
+@interface FNMeteoRequestOperation : NSObject
+
+/**
+	Request sent
+ */
+@property (nonatomic,strong,readonly) NSURLRequest *theRequest;
+/**
+	Response received
+ */
+@property (nonatomic,strong,readonly) NSHTTPURLResponse *theResponse;
+
 
 /**
 	Generate MD5 hashed string object operation for url remote path. You can use this for caching request or save it for later.
@@ -15,6 +25,13 @@
 	@returns hasched operation string
  */
 +(NSString *)reqStringFrom:(NSString *)urlPath;
+
+/**
+	Create a FNMeteoRequestOperation starting from the Request and the Response
+	@param theRequest Request sent
+	@param theResponse Response received
+ */
+-(id)initMeteoRequestOperationWithReq:(NSURLRequest *)theRequest theResponse:(NSHTTPURLResponse *)theResponse;
 
 
 @end

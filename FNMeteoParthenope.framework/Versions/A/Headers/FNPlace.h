@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "FNDefines.h"
+#import "NSObject+AutoCoding.h"
 
 @interface FNPlace : NSObject  <NSCoding>
 
@@ -15,11 +17,6 @@
  Place identifier, usally the region code
  */
 @property (nonatomic,readonly,strong) NSString *identifier;
-
-/**
- Place type
- */
-@property (nonatomic,strong) NSString *type;
 
 /**
  Left points bounding box (bb) is summarized like "longLeft latLeft longRight latRight" example: "13.97 40.87 14.07 40.95"
@@ -37,24 +34,14 @@
 @property (nonatomic,strong) CLLocation *centerCoords;
 
 /**
- Place child
+ Place Address in 'long' format
  */
-@property (nonatomic,strong) NSString *child;
-
-/**
- Place Domain
- */
-@property (nonatomic,strong) NSString *domain;
+@property (nonatomic,strong) NSString *formattedAddress;
 
 /**
  Place common name, like `Rome`, `Napoli` or `Paris`
  */
 @property (nonatomic,readonly,strong) NSString *placeName;
-
-/**
- Place parent
- */
-@property (nonatomic,strong) NSString *parent;
 
 /**
  Initialize a new FNPlace from a dictionary retrieved from API, it's usually used for internal porpouse
@@ -72,6 +59,15 @@
  @returns new FNPlace
  */
 -(id)initWithIdentifier:(NSString *)identifier label:(NSString *)label;
+
+
+/**
+	Find a specific FNPlace from a general feed
+	@param identifier Region identifier ie prov063
+	@param feed the general feed
+	@returns the specific FNPlace
+ */
++(FNPlace *)findPlaceWithIdentifier:(NSString *)identifier fromFeed:(FNFeedBase *)feed;
 
 
 @end

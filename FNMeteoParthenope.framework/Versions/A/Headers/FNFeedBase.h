@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FNFeedBase : NSObject
+@interface FNFeedBase : NSObject <NSCoding>
 
 /**
  Feed MD5, calculate remotely

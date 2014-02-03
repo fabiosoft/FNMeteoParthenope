@@ -18,14 +18,14 @@ typedef void (^FNMeteoSuccess) (FNMeteoRequestOperation *operation, FNFeedBase *
 typedef void (^FNMeteoFailure) (FNMeteoRequestOperation *operation, NSError *error);
 
 
-@interface FNMeteoClient : FNParthenopeClient
+@interface FNMeteoClient : NSObject
 
 /**
  Set authentication for requests
  @param appID Application Identifier
  @param clientKey Client Key
  */
-+(void) setApplicationId:(NSString *)appID clientKey:(NSString *)clientKey; /* UNAVAILABLE_ATTRIBUTE;*/
++(void) setApplicationId:(NSString *)appID clientKey:(NSString *)clientKey UNAVAILABLE_ATTRIBUTE;
 
 /**
  Traslate FNMeteoModel enumerator to NSString for customized model output
@@ -53,7 +53,42 @@ typedef void (^FNMeteoFailure) (FNMeteoRequestOperation *operation, NSError *err
  @param failure block
  */
 -(void)getPlacesWithBlockSuccess:(FNMeteoSuccess)success
-                         failure:(FNMeteoFailure)failure;
+                         failure:(FNMeteoFailure)failure UNAVAILABLE_ATTRIBUTE;
+
+/**
+ Find place from its name
+ @param placename place name like napoli, roma, or paris
+ @param success   success block
+ @param failure   failure block
+ */
+-(void)getPlaceByName:(NSString *)placename
+         blockSuccess:(FNMeteoSuccess)success
+              failure:(FNMeteoFailure)failure;
+
+/**
+ Find place from its identifier
+
+ @param identifier string identifier like prov063 or prov65
+ @param success   success block
+ @param failure   failure block
+ 
+ */
+-(void)getPlaceByIdentifier:(NSString *)identifier
+               blockSuccess:(FNMeteoSuccess)success
+                    failure:(FNMeteoFailure)failure;
+
+/**
+ Get nearest places from location in rounded radius (default 5 KM)
+ 
+ @param location your location coordinates
+ @param radius   radius in KM, if 0 radius is 5
+ @param success  success block
+ @param failure  failure block
+ */
+-(void)getNearestPlacesFromLocation:(CLLocationCoordinate2D)location
+                           inRadius:(NSInteger)radius
+                       blockSuccess:(FNMeteoSuccess)success
+                            failure:(FNMeteoFailure)failure;
 
 
 /**

@@ -8,6 +8,7 @@
 
 #import "FNObjDetail.h"
 
+
 @interface FNForecastDetail : FNObjDetail <NSCoding>
 
 /**
@@ -41,13 +42,21 @@
  Helper method that converts NSNumber Value to a float
  @returns Value as a float
  */
-- (float)floatValue;
+- (CGFloat)valueFloat;
 
 /**
  Helper method for return Value simply
  @returns Value as NSNumber
  */
 - (NSNumber *)numberValue;
+
+
+/**
+	Helper method for return Value and Unit simply
+	@returns value and unit as "%0.f%@"
+ */
+- (NSString *)stringValue;
+
 
 
 @end

@@ -7,8 +7,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "FNDefines.h"
+
 #import "FNForecastDetail.h"
+
+@class FNPlace;
 
 /**
  * @memberof FNMeteoForecast
@@ -102,7 +104,7 @@ static NSString *const DIR_WAVE = @"peakd";
 //----------------------------------
 
 
-@interface FNMeteoForecast : NSObject
+@interface FNMeteoForecast : NSObject <NSCoding>
 
 /**
  * @name Forecast base informations, always available
@@ -111,13 +113,13 @@ static NSString *const DIR_WAVE = @"peakd";
 /**
  Region identifier
  */
-@property (nonatomic,strong) NSString *idplace; //id region
+@property (nonatomic,strong) NSString *idplace;
 
 
 /**
  Region common name (i.e. Paris, Rome or Napoli)
  */
-@property (nonatomic,strong) NSString *label; //nome luogo
+@property (nonatomic,strong) NSString *label;
 
 /**
  Date measured forecast
@@ -132,12 +134,12 @@ static NSString *const DIR_WAVE = @"peakd";
 /**
  Wind Speed default unit: knt
  */
-@property (nonatomic,strong) FNForecastDetail *speedVento;//knt
+@property (nonatomic,strong) FNForecastDetail *speedVento;
 
 /**
  Wind direction in degree default unit: °N
  */
-@property (nonatomic,strong) FNForecastDetail *dirVento;//°N
+@property (nonatomic,strong) FNForecastDetail *dirVento;
 
 /**
  Wind vector U
@@ -153,57 +155,60 @@ static NSString *const DIR_WAVE = @"peakd";
 /**
  Temperature in celsius
  */
-@property (nonatomic,strong) FNForecastDetail *temperaturaC;//c
+@property (nonatomic,strong) FNForecastDetail *temperaturaC;
 
 /**
  Max temperature in celsius
  */
-@property (nonatomic,strong) FNForecastDetail *temperaturaMaxC;//c
+@property (nonatomic,strong) FNForecastDetail *temperaturaMaxC;
 
 /**
  Min temperature in celsius
  */
-@property (nonatomic,strong) FNForecastDetail *temperaturaMinC;//c
+@property (nonatomic,strong) FNForecastDetail *temperaturaMinC;
 
 /**
  Air pressure default unit: hpa
  */
-@property (nonatomic,strong) FNForecastDetail *pressione;//hpa
+@property (nonatomic,strong) FNForecastDetail *pressione;
 
 /**
  Cloud coverage %
  */
-@property (nonatomic,strong) FNForecastDetail *copNuvolosa;// %
+@property (nonatomic,strong) FNForecastDetail *copNuvolosa;
 
 /**
  Hourly rain default unit: mm
  */
-@property (nonatomic,strong) FNForecastDetail *pioggiaOra;// mm
+@property (nonatomic,strong) FNForecastDetail *pioggiaOra;
 
 /**
  Humidity %
  */
-@property (nonatomic,strong) FNForecastDetail *umidita;// %
+@property (nonatomic,strong) FNForecastDetail *umidita;
 
 /**
  Real temperature feel in celsius aka HX in celsius
  */
-@property (nonatomic,strong) FNForecastDetail *tempPercepita;//HX //c
+@property (nonatomic,strong) FNForecastDetail *tempPercepita;
 
 /**
  Apparent temperature in celsius aka HI+WC aka RealFeel©
+ HI + WC - use this for forecasts information
  */
-@property (nonatomic,strong) FNForecastDetail *tempApparente;//HI + WC - usare questa per le previsioni //c
+@property (nonatomic,strong) FNForecastDetail *tempApparente;
 
 /**
- Summer Simmer Index aka Heat index value (HI)
+ Summer Simmer Index aka Heat index value (HI) - SSI
  */
-@property (nonatomic,strong) FNForecastDetail *tempIndiceCalore;//SSI
+@property (nonatomic,strong) FNForecastDetail *tempIndiceCalore;
 
 /**
  region GPS coordinates
  */
-@property (nonatomic,strong) CLLocation *coords;
+//@property (nonatomic,strong) CLLocation *coords;
+
+@property (nonatomic,strong) FNPlace *place;
 
 /**
  * @name CHM3 properties
@@ -294,6 +299,11 @@ static NSString *const DIR_WAVE = @"peakd";
 @property (nonatomic,strong) FNForecastDetail *heightWave;
 
 /**
+ * Wave Direction in degree
+ */
+@property (nonatomic,strong) FNForecastDetail *dirWave;
+
+/**
  * @name Methods
  */
 /**
@@ -345,45 +355,41 @@ static NSString *const DIR_WAVE = @"peakd";
 
 /**
  Get a dictionary based information about texual weather information
- @param lang output language, it could be __it__ or __en__
- @param clf cloudy coverage
- @param crh hourly rain
- @param data a date for correct coutput information
  @param night include night image?
- @returns dictinary keys: __iconURL__: url remote icon __iconLbl__:texual weather information
+ @returns dictinary keys: __iconURL__:url remote icon __iconLbl__:texual weather information __iconBack__:backgroud weather image
  */
--(NSDictionary*)getSkyIconTextWithLang:(NSString*)lang nuvFrac:(float)clf pioggiaOra:(float)crh data:(NSDate *)data withNight:(BOOL)night;
+-(NSDictionary*)getSkyIconTextwithNight:(BOOL)night;
 
 /**
  Wind weather information and status
- @param lang output language, it could be __it__ or __en__
- @param ws10 wind speed in knots
  @returns string information about wind
  */
--(NSString*)knotsToTextFromLang:(NSString*)lang speedVento:(float)ws10;
+-(NSString*)knotsToText;
 
 /**
  Wind weather direction degree to text
- @param wd10 wind direction at 10 meters
  @returns string information about carinals points like North, South, etc... shorted
  */
--(NSString*)windDirToText:(float)wd10;
+-(NSString*)windDirToText;
 
 /**
  Wind vectors to degrees
- @param u10m u wind component
- @param v10m v wind component
  @returns degree angle
  */
--(float) uvToNDegs:(float )u10m v10m:(float)v10m;
+-(CGFloat)uvToNDegs;
 
 /**
  Wind vectors to knots
- @param u10m u wind component
- @param v10m v wind component
  @returns degree angle
  */
--(float) uvToKnots:(float )u10m v10m:(float)v10m;
+-(CGFloat)uvToKnots;
+
+/**
+	Calculate Beaufort Index
+	@returns Beaufort Index
+ */
+-(NSInteger)knotsToBeaufort;
+
 
 
 @end

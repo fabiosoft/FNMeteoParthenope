@@ -7,6 +7,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "NSObject+AutoCoding.h"
 
 @interface FNObjDetail : NSObject <NSCoding>
 

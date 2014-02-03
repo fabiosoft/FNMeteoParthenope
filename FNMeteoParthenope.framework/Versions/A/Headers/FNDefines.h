@@ -3,12 +3,9 @@
 #import "FNMeteoForecast.h"
 #import "FNObjDetail.h"
 #import "FNForecastDetail.h"
-#import "FNParthenopeClient.h"
-#import <Networking/AFNetworking.h>
-#import <Networking/FNCache.h>
-#import "NSString+MD5.h"
 #import "FNMeteoRequestOperation.h"
 #import "NSObject+AutoDescription.h"
+#import "NSDate+Helpers.h"
 
 /**
  * Standard Models id enumeration
